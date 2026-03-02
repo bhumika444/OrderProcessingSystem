@@ -1,12 +1,19 @@
 package com.example.order_api.dto;
 
-
 import java.util.List;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 
 public class OrderRequestDTO {
+
+    @NotBlank(message = "customerId is required")
     private String customerId;
-    private List<OrderItemDTO> items;
+
+    @NotEmpty(message = "items must not be empty")
+    private List<@Valid OrderItemDTO> items;
 
     public OrderRequestDTO() {}
 

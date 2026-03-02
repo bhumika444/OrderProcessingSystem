@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.order_api.dto.OrderRequestDTO;
 import com.example.order_api.dto.OrderResponseDTO;
 import com.example.order_api.service.OrderService;
+
+import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -28,7 +29,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> createOrder(@RequestBody OrderRequestDTO req) {
+    public ResponseEntity<Map<String, String>> createOrder(@RequestBody @Valid OrderRequestDTO req) {
         String orderId = orderService.createOrder(req);
 
         Map<String, String> body = new HashMap<>();
@@ -41,12 +42,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable String id) {
-        Optional<OrderResponseDTO> orderOpt = orderService.getOrderById(id);
-
-        if (orderOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(orderOpt.get());
+        return ResponseEntity.ok(orderService.getOrderByIdOrThrow(id));
     }
 
     @GetMapping

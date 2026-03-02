@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,6 +14,7 @@ import com.example.order_api.domain.Order;
 import com.example.order_api.dto.OrderItemDTO;
 import com.example.order_api.dto.OrderRequestDTO;
 import com.example.order_api.dto.OrderResponseDTO;
+import com.example.order_api.exception.OrderNotFoundException;
 
 @Service
 public class OrderService {
@@ -31,10 +31,10 @@ public class OrderService {
         return id;
     }
 
-    public Optional<OrderResponseDTO> getOrderById(String id) {
-        Order order = store.get(id);
-        if (order == null) return Optional.empty();
-        return Optional.of(toResponse(order));
+    public OrderResponseDTO getOrderByIdOrThrow(String id) {
+    Order order = store.get(id);
+    if (order == null) throw new OrderNotFoundException(id);
+    return toResponse(order);
     }
 
     public List<OrderResponseDTO> getAllOrders() {

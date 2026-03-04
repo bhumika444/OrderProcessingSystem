@@ -43,7 +43,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 }
 
   @Bean
-  UserDetailsService users() {
+  public UserDetailsService users() {
     UserDetails user = User.withUsername("admin")
       .password("{noop}admin123")
       .roles("USER")

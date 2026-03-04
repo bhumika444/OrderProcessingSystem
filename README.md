@@ -38,7 +38,7 @@ docker exec -it order-kafka kafka-console-producer \
   --topic orders.created
 ```
 
-##Stop
+## Stop
 ```bash
 docker compose -f docker/docker-compose.yml down
 ```

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.order_api.config.AppConfigProperties;
 import com.example.order_api.dto.OrderRequestDTO;
 import com.example.order_api.dto.OrderResponseDTO;
 import com.example.order_api.service.OrderService;
@@ -49,5 +50,9 @@ public class OrderController {
     public ResponseEntity<List<OrderResponseDTO>> getOrders() {
         List<OrderResponseDTO> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
+    }
+    @GetMapping("/config/app-name")
+    public Map<String, String> appName(AppConfigProperties props) {
+        return Map.of("appName", props.name());
     }
 }
